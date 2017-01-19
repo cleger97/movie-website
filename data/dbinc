@@ -1,0 +1,7 @@
+<?php 
+	$username = "root";
+	$pwd = "";
+	$site = "localhost:3306";
+	$db = "moviedb";
+	$cxn = mysqli_connect($site, $username, $pwd, $db) or die ("Error!");
+?>
