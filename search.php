@@ -1,27 +1,46 @@
 <!--
-	File: showall.php
+	File: search.php
 	Dev: Alex Leger
 	Date Stated: 2017/1/19
-	Description: The site that displays all the movies.
+	Description: The site to search for certain movie types.
 -->
 <?php
 	include("./data/dbinc.incf");
-	$sort_options = array( "title" => "Title", "year" => "Year", "genre" => "Genre", "rating" => "Rating", "actorList" => "Actor List");
+	session_start();
+	$search = null;
+	
+	// Check if the post array's 'search' is set. If it is, we're using the search function.
+	if (!empty($_POST['SEARCH'])) {
+		$search = $_POST['SEARCH'];	
+		// If we're researching then the old query is worthless.
+		unset($_SESSION['QUERY']);
+	} 
+	
+	$attribute = null;
+	// Same as above - check to make sure this is first time we've searched.
+	if (!empty($_POST['ATTRIBUTE'])) { 
+		$attribute = $_POST['ATTRIBUTE'];
+	}
+	
+	// If they search for nothing then just display everything again
+	if ((strlen($search) == 0 or strtolower($search) == 'all') and $_POST['INPUT'] != 'sort') {
+		header("Location: showall.php");
+	}
+	
+	
 ?>
+
 <!DOCTYPE html>
 <html>
-
 <head>
-<title> Movie List </title>
+<title> Search </title>
 </head>
 
 <body>
-	
-	<!-- The form for searching for a certain object -->
 	<form action = 'search.php' method = 'POST'>
 		<label class = "textbox" for = "SEARCH"> Search: </label>
 		<input type = "text" id = "SEARCH" name = "SEARCH" size = "30" maxlength = "30" />
-		
+		<input type = "hidden" value = "search" name = "INPUT" />
 		<select name = "ATTRIBUTE">
 			<option value = "title"> Title </option>
 			<option value = "year"> Year </option>
@@ -32,10 +51,12 @@
 		<input type = "submit" value = "Search" />
 	</form>
 	<br />
-	
+
+
 	<!-- The form for sorting the objects -->
-	<form action = 'showall.php' method = 'POST'>
+	<form action = 'search.php' method = 'POST'>
 		<input type = "submit" value = "Sort" />
+		<input type = "hidden" value = "sort" name = "INPUT" />
 		<select name = "SORTATTRIBUTE">
 			<option value = "title"> Title </option>
 			<option value = "year"> Year </option>
@@ -48,19 +69,30 @@
 			<option value = "DESCENDING"> Descending </option>
 		</select>
 		
+		
 	</form>
 
-	<h1> All Movies </h1>
-	
 <?php
-	/* This block of PHP is built to get the movies and place them accordingly into a table. */
+	// Do the search
+	// this only works for not-actor list
+	//unset($_SESSION['QUERY']);
 	
-	/* Query the database for the movie list, sorted if necessary */
-	$query = "SELECT * FROM movielist";
-	if (@sizeof($_POST) != 0) {
+	// If there's already a session set for the query search using that
+	if (!empty($_SESSION['QUERY'])) {
+		$query = $_SESSION['QUERY'];
+	} else {
+		if ($attribute != 'actorList') {
+			$query = "SELECT * FROM movielist WHERE $attribute LIKE '%{$search}%'";
+		}
+		
+		$_SESSION['QUERY'] = $query;
+	}
+	//echo($query);
+	
+	if (!empty($_POST["SORTATTRIBUTE"])) {
 		$query .= " ORDER BY ";
 		$query .= $_POST['SORTATTRIBUTE'];
-		if ($_POST['TYPE'] == 'DESCENDING') {
+		/*if ($_POST['TYPE'] == 'DESCENDING') {
 			if (!($_POST['SORTATTRIBUTE'] == "year" or $_POST['SORTATTRIBUTE'] == "stars")) {
 				$query .= " DESC";
 			}
@@ -68,20 +100,33 @@
 			if ($_POST['SORTATTRIBUTE'] == "year" or $_POST['SORTATTRIBUTE'] == "stars") {
 				$query .= " DESC"; 
 			}
-		}
+		} */
+		
+		if 
+		
 	} else {
 		$query .= " ORDER BY title";
 	}
-	$result = mysqli_query($cxn, $query) or die ("Query failed!");
 	
-	/* If there's no movies, then just print that and exit. */
-
-
-	echo "<table>\n";
-	echo "\t<caption><b> List of All Movies </b></caption>\n";
+	echo($query);
 	
-	echo "\t<tr>\n";
+	$result = mysqli_query($cxn, $query) or die ("Invalid attribute!");
+	// If not, manually search it
+	
+	$hasResults = true;
+	if (mysqli_num_rows($result) == 0) {
+		$hasResults = false;
+	}
+
+	// Display the actual search
+	if ($hasResults) {
+		echo "<table>\n";
+		echo "\t<caption> Search for $search </caption>\n";
+		
+		// Display fields 
+		echo "\t<tr>\n";
 		while ($currentField = mysqli_fetch_field($result)) {
+			// Do not display the unique identifier - no reason
 			if ($currentField->name == 'id') { 
 				continue; 
 			} else {
@@ -90,12 +135,7 @@
 		}		
 		echo "\t</tr>\n";
 		
-	/* This builds the table with the movies. */
-	if (!$result) {
-		echo "</table><p> No movies have been added yet! </p>";
-		die();
-	} else {
-		/* Now we have to print out the movies. */
+		// Display movies
 		while ($row = mysqli_fetch_assoc($result)) {
 			echo "\t<tr>\n";
 			foreach ($row as $key => $value) {
@@ -105,9 +145,16 @@
 			echo "\t</tr>\n";
 		
 		}
-		echo "</table>";
+		
+		echo "</table>\n";
 	}
+	
+	
+	
 ?>
+
+
+
 
 </body>
 
