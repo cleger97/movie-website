@@ -4,6 +4,6 @@
 	$site = "localhost:3306";
 	$db = "moviedb";
 	$cxn = mysqli_connect($site, $username, $pwd, $db) or die ("Error!");
-	$lov = array ( "title" => "Title", "year" => "Year", "genre" => "Genre", "rating" => "Rating", "actorList" => "Actor List", "stars" => "Star Rating");
+	$lov = array ( "title" => "Title", "year" => "Year", "genre" => "Genre", "rating" => "Rating", "actorList" => "Actor List", "stars" => "Star Rating", "id" => "ID");
 	
 ?>

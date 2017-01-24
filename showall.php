@@ -6,17 +6,18 @@
 -->
 <?php
 	include("./data/dbinc.incf");
-	$sort_options = array( "title" => "Title", "year" => "Year", "genre" => "Genre", "rating" => "Rating", "actorList" => "Actor List");
+	$sort_options = array( "title" => "Title", "year" => "Year", "genre" => "Genre", "rating" => "Rating", "actorList" => "Actor List", "stars" => "Stars", "id" => "ID");
 ?>
 <!DOCTYPE html>
 <html>
 
 <head>
-<title> Movie List </title>
+	<title> Movie List </title>
 </head>
 
 <body>
 	
+	<div id = "searchbox">
 	<!-- The form for searching for a certain object -->
 	<form action = 'search.php' method = 'POST'>
 		<label class = "textbox" for = "SEARCH"> Search: </label>
@@ -32,7 +33,14 @@
 		<input type = "submit" value = "Search" />
 	</form>
 	<br />
+	</div>
 	
+	<!-- Links here -->
+	<div id = "linkbox">
+	<!-- Add the link boxes here -->
+	</div>
+	
+	<div id = "sortbox">
 	<!-- The form for sorting the objects -->
 	<form action = 'showall.php' method = 'POST'>
 		<input type = "submit" value = "Sort" />
@@ -49,6 +57,7 @@
 		</select>
 		
 	</form>
+	</div>
 
 	<h1> All Movies </h1>
 	
@@ -82,11 +91,8 @@
 	
 	echo "\t<tr>\n";
 		while ($currentField = mysqli_fetch_field($result)) {
-			if ($currentField->name == 'id') { 
-				continue; 
-			} else {
-				echo "\t\t<th>{$lov[$currentField->name]}</th>\n";
-			}
+			//if ($currentField->name == 'id') continue; 
+			echo "\t\t<th>{$lov[$currentField->name]}</th>\n";
 		}		
 		echo "\t</tr>\n";
 		
@@ -99,7 +105,7 @@
 		while ($row = mysqli_fetch_assoc($result)) {
 			echo "\t<tr>\n";
 			foreach ($row as $key => $value) {
-				if ($key == 'id') continue;
+				//if ($key == 'id') continue;
 				echo "\t\t<td>{$value}</td>\n";
 			}
 			echo "\t</tr>\n";

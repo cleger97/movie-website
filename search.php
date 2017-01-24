@@ -33,10 +33,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title> Search </title>
+	<title> Search </title>
 </head>
 
 <body>
+	<div id = "searchbox">
+	<!-- The form for searching for a certain object -->
 	<form action = 'search.php' method = 'POST'>
 		<label class = "textbox" for = "SEARCH"> Search: </label>
 		<input type = "text" id = "SEARCH" name = "SEARCH" size = "30" maxlength = "30" />
@@ -51,8 +53,14 @@
 		<input type = "submit" value = "Search" />
 	</form>
 	<br />
-
-
+	</div>
+	
+	<!-- Links here -->
+	<div id = "linkbox">
+	<!-- Add the link boxes here -->
+	</div>
+	
+	<div id = "sortbox">
 	<!-- The form for sorting the objects -->
 	<form action = 'search.php' method = 'POST'>
 		<input type = "submit" value = "Sort" />
@@ -71,7 +79,8 @@
 		
 		
 	</form>
-
+	</div>
+	
 <?php
 	// Do the search
 	// this only works for not-actor list
