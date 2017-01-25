@@ -13,6 +13,7 @@
 
 <head>
 	<title> Movie List </title>
+	<script type="text/javascript" src = "clicksort.js"> </script>
 </head>
 
 <body>
@@ -86,32 +87,36 @@
 	/* If there's no movies, then just print that and exit. */
 
 
-	echo "<table>\n";
-	echo "\t<caption><b> List of All Movies </b></caption>\n";
+	echo "\t<table id = 'main'>\n";
+	echo "\t\t<caption><b> List of All Movies </b></caption>\n";
 	
-	echo "\t<tr>\n";
+	echo "\t\t<thead>\n";
+	echo "\t\t\t<tr>\n";
 		while ($currentField = mysqli_fetch_field($result)) {
 			//if ($currentField->name == 'id') continue; 
-			echo "\t\t<th>{$lov[$currentField->name]}</th>\n";
+			echo "\t\t\t\t<th class = '{$currentField->name}'>{$lov[$currentField->name]}</th>\n";
 		}		
-		echo "\t</tr>\n";
+		echo "\t\t\t</tr>\n";
+		echo "\t\t</thead>\n";
 		
 	/* This builds the table with the movies. */
 	if (!$result) {
-		echo "</table><p> No movies have been added yet! </p>";
+		echo "\t</table><p> No movies have been added yet! </p>";
 		die();
 	} else {
 		/* Now we have to print out the movies. */
+		echo "\t\t<tbody>\n";
 		while ($row = mysqli_fetch_assoc($result)) {
-			echo "\t<tr>\n";
+			echo "\t\t\t<tr>\n";
 			foreach ($row as $key => $value) {
 				//if ($key == 'id') continue;
-				echo "\t\t<td>{$value}</td>\n";
+				echo "\t\t\t\t<td class = \"{$key}\">{$value}</td>\n";
 			}
-			echo "\t</tr>\n";
+			echo "\t\t\t</tr>\n";
 		
 		}
-		echo "</table>";
+		echo "\t\t<tbody>\n";
+		echo "\t</table>";
 	}
 ?>
 
