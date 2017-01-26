@@ -87,7 +87,7 @@
 	/* If there's no movies, then just print that and exit. */
 
 
-	echo "\t<table id = 'main'>\n";
+	echo "\t<table class = 'main'>\n";
 	echo "\t\t<caption><b> List of All Movies </b></caption>\n";
 	
 	echo "\t\t<thead>\n";

@@ -127,7 +127,7 @@
 
 	// Display the actual search
 	if ($hasResults) {
-		echo "\t<table id = 'main'>\n";
+		echo "\t<table class = 'main'>\n";
 		echo "\t\t<caption> Search for $search </caption>\n";
 		
 		// Display fields 

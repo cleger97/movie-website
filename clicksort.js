@@ -37,7 +37,7 @@ function makeSortable(table) {
 
 function makeAllSortable(parent) {
     parent = parent || document.body;
-    var t = parent.getElementsByTagName('table'), i = t.length;
+    var t = parent.getElementsByClassName('main'), i = t.length;
     while (--i >= 0) makeSortable(t[i]);
 }
 
