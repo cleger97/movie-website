@@ -38,7 +38,10 @@
 	
 	<!-- Links here -->
 	<div id = "linkbox">
-	<!-- Add the link boxes here -->
+        <table>
+            <tr> <td> <a href="showall.php"> Show All Movies </a> </td> </tr>
+            <tr> <td> <a href="addnew.php"> Add A Movie </a> </td> </tr>
+        </table>
 	</div>
 	
 	<div id = "sortbox">
@@ -93,7 +96,7 @@
 	echo "\t\t<thead>\n";
 	echo "\t\t\t<tr>\n";
 		while ($currentField = mysqli_fetch_field($result)) {
-			//if ($currentField->name == 'id') continue; 
+			if ($currentField->name == 'id') continue; 
 			echo "\t\t\t\t<th class = '{$currentField->name}'>{$lov[$currentField->name]}</th>\n";
 		}		
 		echo "\t\t\t</tr>\n";
@@ -109,7 +112,7 @@
 		while ($row = mysqli_fetch_assoc($result)) {
 			echo "\t\t\t<tr>\n";
 			foreach ($row as $key => $value) {
-				//if ($key == 'id') continue;
+				if ($key == 'id') continue;
 				echo "\t\t\t\t<td class = \"{$key}\">{$value}</td>\n";
 			}
 			echo "\t\t\t</tr>\n";

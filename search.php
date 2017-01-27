@@ -58,7 +58,10 @@
 	
 	<!-- Links here -->
 	<div id = "linkbox">
-	<!-- Add the link boxes here -->
+        <table>
+            <tr> <td> <a href="showall.php"> Show All Movies </a> </td> </tr>
+            <tr> <td> <a href="addnew.php"> Add A Movie </a> </td> </tr>
+        </table>
 	</div>
 	
 	<div id = "sortbox">
