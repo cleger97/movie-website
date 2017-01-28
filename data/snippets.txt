@@ -1,0 +1,44 @@
+if (@sizeof($_POST) != 0) {
+		$query .= " ORDER BY ";
+		$query .= $_POST['SORTATTRIBUTE'];
+		if ($_POST['TYPE'] == 'DESCENDING') {
+			if (!($_POST['SORTATTRIBUTE'] == "year" or $_POST['SORTATTRIBUTE'] == "stars")) {
+				$query .= " DESC";
+			}
+		}  else {
+			if ($_POST['SORTATTRIBUTE'] == "year" or $_POST['SORTATTRIBUTE'] == "stars") {
+				$query .= " DESC"; 
+			}
+		}
+	} else {
+		$query .= " ORDER BY title";
+	}
+    
+    <div id = "sortbox">
+	   <!-- The form for sorting the objects -->
+	   <form action = 'showall.php' method = 'POST'>
+           <input type = "submit" value = "Sort" />
+           <select name = "SORTATTRIBUTE">
+               <option value = "title"> Title </option>
+               <option value = "year"> Year </option>
+               <option value = "genre"> Genre </option>
+               <option value = "rating"> Rating </option>
+               <option value = "stars"> Stars </option>
+           </select>
+           <select name = "TYPE"> 
+               <option value = "ASCENDING"> Ascending </option>
+               <option value = "DESCENDING"> Descending </option>
+           </select>
+		
+        </form>
+        
+        
+if (!empty($_SESSION['QUERY'])) {
+		$query = $_SESSION['QUERY'];
+	} else {
+		if ($attribute != 'actorList') {
+			$query = "SELECT * FROM movielist WHERE $attribute LIKE '%{$search}%'";
+		}
+		
+		$_SESSION['QUERY'] = $query;
+	} 

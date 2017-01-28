@@ -17,6 +17,11 @@
         $select = false;
         $query = "SELECT * FROM movielist WHERE movielist.id = {$_POST['id']}";
         $result = mysqli_query($cxn, $query) or die ("Error in query");
+    } else if (!empty($_GET['id'])) {
+        $select = false;
+        $id = mysqli_real_escape_string($cxn, $_GET['id']);
+        $query = "SELECT * FROM movielist WHERE movielist.id = {$id}";
+        $result = mysqli_query($cxn, $query) or die ("Error in query");
     } else {
         $select = true;
         $query = "SELECT * FROM movielist";
@@ -29,17 +34,43 @@
 <head>
     <title> Modify Movie </title>
     <link rel="stylesheet" type="text/css" href="stylesheets/anstyle.css">
-        
+    <link rel="stylesheet" type="text/css" href="stylesheets/genstyle.css">
 </head>
 
 <body>
-    <!-- Links here -->
-	<div id = "linkbox">
+    <div id = "wrapper">
+    <div id = "header">
+        
+        <div id = "headingtitle">
+            <h1> Movie Website </h1>
+        </div>
+        
+        
+        <div id = "searchbox">
+            <!-- The form for searching for a certain object -->
+            <form action = 'search.php' method = 'POST'>
+                <label class = "textbox" for = "SEARCH"> Search: </label>
+                <input type = "text" id = "SEARCH" name = "SEARCH" size = "30" maxlength = "30" />
+                <select name = "ATTRIBUTE">
+                    <option value = "title"> Title </option><
+                    option value = "year"> Year </option>
+                    <option value = "genre"> Genre </option>
+                    <option value = "rating"> Rating </option>
+                    <option value = "stars"> Stars </option>
+                </select>
+                <input type = "submit" value = "Search" />
+            </form>
+	
+        </div>
+        <!-- Links here -->
+        <div id = "linkbox">
         <table>
             <tr> <td> <a href="showall.php"> Show All Movies </a> </td> </tr>
             <tr> <td> <a href="addnew.php"> Add A Movie </a> </td> </tr>
+            <tr> <td> <a href="modifymovie.php"> Change A Movie </a> </td> </tr>
         </table>
-	</div>
+        </div>
+    </div>
     
 <?php 
     
@@ -84,12 +115,12 @@
                 }
                 echo "\t\t\t</select></td>";
             } else { // Otherwise make a text field
-                echo "\t\t\t<td><input type = 'text' name = $name id = $name value = '$data' required /></td>";
+                echo "\t\t\t<td><input type = 'text' name = $name id = $name value = '$data' class = 'forminput' required /></td>";
             }
             echo "\t\t</tr>\n";
         }
         // Store the id of the movie - so we can compare the new data to the old (and update as necessary)
-        echo "\t\t<tr><td><input type = 'hidden' value = '{$_POST['id']}'/></td></tr>\n";
+        echo "\t\t<tr><td><input type = 'hidden' value = '{$_POST['id']}' id = 'id' name = 'id'/></td></tr>\n";
         echo "\t\t<tr><td><input type = 'submit' value = 'Submit' /></td></tr>\n";
         echo "\t</table>\n";
         echo "\t</form>\n";
@@ -97,5 +128,6 @@
     
     
 ?>
+    </div> <!-- close the wrapper -->
 </body>
 </html>
