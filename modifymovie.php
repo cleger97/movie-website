@@ -52,8 +52,8 @@
                 <label class = "textbox" for = "SEARCH"> Search: </label>
                 <input type = "text" id = "SEARCH" name = "SEARCH" size = "30" maxlength = "30" />
                 <select name = "ATTRIBUTE">
-                    <option value = "title"> Title </option><
-                    option value = "year"> Year </option>
+                    <option value = "title"> Title </option>
+                    <option value = "year"> Year </option>
                     <option value = "genre"> Genre </option>
                     <option value = "rating"> Rating </option>
                     <option value = "stars"> Stars </option>
@@ -123,6 +123,11 @@
         echo "\t\t<tr><td><input type = 'hidden' value = '{$_POST['id']}' id = 'id' name = 'id'/></td></tr>\n";
         echo "\t\t<tr><td><input type = 'submit' value = 'Submit' /></td></tr>\n";
         echo "\t</table>\n";
+        echo "\t</form>\n";
+        
+        echo "\t<form action = 'delete.php' method = 'POST'>\n";
+        echo "\t\t<input type = 'hidden' value = '{$_POST['id']} id = 'id' name = 'id'/>\n";
+        echo "\t\t<input type = 'submit' value = 'Delete' />\n";
         echo "\t</form>\n";
     }
     
